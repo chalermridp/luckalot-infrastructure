@@ -40,25 +40,25 @@ Parameters:
     Type: String
     Default: 10.100.31.0/24
 
-  # MngmtVpcCIDR:
-  #   Type: String
-  #   Default: 10.101.0.0/16
+  MngmtVpcCIDR:
+    Type: String
+    Default: 10.101.0.0/16
 
-  # MngmtPublicSubnet1CIDR:
-  #   Type: String
-  #   Default: 10.101.10.0/24
+  MngmtPublicSubnet1CIDR:
+    Type: String
+    Default: 10.101.10.0/24
 
-  # MngmtPublicSubnet2CIDR:
-  #   Type: String
-  #   Default: 10.101.11.0/24
+  MngmtPublicSubnet2CIDR:
+    Type: String
+    Default: 10.101.11.0/24
 
-  # MngmtPrivateSubnet1CIDR:
-  #   Type: String
-  #   Default: 10.101.20.0/24
+  MngmtPrivateSubnet1CIDR:
+    Type: String
+    Default: 10.101.20.0/24
 
-  # MngmtPrivateSubnet2CIDR:
-  #   Type: String
-  #   Default: 10.101.21.0/24
+  MngmtPrivateSubnet2CIDR:
+    Type: String
+    Default: 10.101.21.0/24
 
 Resources:
   MainVpc:
@@ -234,6 +234,129 @@ Resources:
       RouteTableId: !Ref MainPrivateDbRouteTable2
       SubnetId: !Ref MainPrivateDbSubnet2
 
+  MngmtVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref MngmtVpcCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: mngmt-vpc
+
+  MngmtInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: mngmt-internet-gateway
+
+  MngmtInternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref MngmtInternetGateway
+      VpcId: !Ref MngmtVpc
+
+  MngmtPublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MngmtVpc
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: !Ref MngmtPublicSubnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: mngmt-public-subnet-1a
+
+  MngmtPublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MngmtVpc
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      CidrBlock: !Ref MngmtPublicSubnet2CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: mngmt-public-subnet-1b
+
+  MngmtPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MngmtVpc
+      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      CidrBlock: !Ref MngmtPrivateSubnet1CIDR
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: mngmt-private-subnet-1a
+
+  MngmtPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MngmtVpc
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      CidrBlock: !Ref MngmtPrivateSubnet2CIDR
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: mngmt-private-subnet-1b
+
+  MngmtPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MngmtVpc
+      Tags:
+        - Key: Name
+          Value: mngmt-public-route-table
+
+  MngmtDefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MngmtInternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MngmtInternetGateway
+
+  MngmtPublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      SubnetId: !Ref MngmtPublicSubnet1
+
+  MngmtPublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      SubnetId: !Ref MngmtPublicSubnet2
+
+  MngmtPrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MngmtVpc
+      Tags:
+        - Key: Name
+          Value: mngmt-private-route-table-1a
+
+  MngmtPrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable1
+      SubnetId: !Ref MngmtPrivateSubnet1
+
+  MngmtPrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MngmtVpc
+      Tags:
+        - Key: Name
+          Value: mngmt-private-route-table-1b
+
+  MngmtPrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable2
+      SubnetId: !Ref MngmtPrivateSubnet2
+
 Outputs:
   MainVpc:
     Description: A reference to the created main vpc
@@ -274,3 +397,31 @@ Outputs:
   MainPrivateDbSubnet2:
     Description: A reference to the main private db subnet in the 2nd Availability Zone
     Value: !Ref MainPrivateDbSubnet2
+
+  MngmtVpc:
+    Description: A reference to the created mngmt vpc
+    Value: !Ref MngmtVpc
+
+  MngmtPublicSubnets:
+    Description: A list of the mngmt public subnets
+    Value: !Join [ ",", [ !Ref MngmtPublicSubnet1, !Ref MngmtPublicSubnet2 ]]
+
+  MngmtPrivateSubnets:
+    Description: A list of the mngmt private subnets
+    Value: !Join [ ",", [ !Ref MngmtPrivateSubnet1, !Ref MngmtPrivateSubnet2 ]]
+
+  MngmtPublicSubnet1:
+    Description: A reference to the mngmt public subnet in the 1st Availability Zone
+    Value: !Ref MngmtPublicSubnet1
+
+  MngmtPublicSubnet2:
+    Description: A reference to the mngmt public subnet in the 2nd Availability Zone
+    Value: !Ref MngmtPublicSubnet2
+
+  MngmtPrivateSubnet1:
+    Description: A reference to the mngmt private subnet in the 1st Availability Zone
+    Value: !Ref MngmtPrivateSubnet1
+
+  MngmtPrivateSubnet2:
+    Description: A reference to the mngmt private subnet in the 2nd Availability Zone
+    Value: !Ref MngmtPrivateSubnet2
