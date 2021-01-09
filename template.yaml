@@ -477,6 +477,59 @@ Resources:
       DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable2
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtVpnSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: mngmt-vpn-sg
+      Tags:
+        - Key: Name
+          Value: mngmt-vpn-sg
+      GroupDescription: Allow vpn and ssh to public client
+      VpcId: !Ref MngmtVpc
+      SecurityGroupIngress:
+        - IpProtocol: UDP
+          FromPort: 1194
+          ToPort: 1194
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: TCP
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  MainAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: main-app-sg
+      Tags:
+        - Key: Name
+          Value: main-app-sg
+      GroupDescription: Allow ssh to vpn client
+      VpcId: !Ref MainVpc
+      SecurityGroupIngress:
+        - IpProtocol: TCP
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref MngmtVpnSecurityGroup
+
+  MainDbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: main-db-sg
+      Tags:
+        - Key: Name
+          Value: main-db-sg
+      GroupDescription: Allow postgres to app and vpn client
+      VpcId: !Ref MainVpc
+      SecurityGroupIngress:
+        - IpProtocol: TCP
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref MainAppSecurityGroup
+        - IpProtocol: TCP
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref MngmtVpnSecurityGroup
       
 Outputs:
   MainVpc:
