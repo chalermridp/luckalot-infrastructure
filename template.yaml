@@ -634,3 +634,23 @@ Outputs:
   MngmtPrivateSubnet2:
     Description: A reference to the mngmt private subnet in the 2nd Availability Zone
     Value: !Ref MngmtPrivateSubnet2
+
+  MngmtVpnSecurityGroup:
+    Description: A reference to the mngmt vpn security group
+    Value: !Ref MngmtVpnSecurityGroup
+
+  MainAppSecurityGroup:
+    Description: A reference to the main app security group
+    Value: !Ref MainAppSecurityGroup
+
+  MainDbSecurityGroup:
+    Description: A reference to the main db security group
+    Value: !Ref MainDbSecurityGroup
+
+  PostgresDbEndpoint:
+    Description: A reference to the postgres db endpoint
+    Value: !GetAtt PostgresDbInstance.Endpoint.Address
+
+  PostgresDbPort:
+    Description: A reference to the postgres db port
+    Value: !GetAtt PostgresDbInstance.Endpoint.Port
