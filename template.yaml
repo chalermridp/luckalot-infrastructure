@@ -530,6 +530,41 @@ Resources:
           FromPort: 5432
           ToPort: 5432
           SourceSecurityGroupId: !Ref MngmtVpnSecurityGroup
+
+  PostgresDbSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Secret username and password for Postgres Db instance
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "postgres"}'
+        GenerateStringKey: 'password'
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+
+  PostgresDbSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties: 
+      DBSubnetGroupDescription: Subnet group for postgres-db
+      DBSubnetGroupName: postgres-db-subnet-group
+      SubnetIds: 
+        - !Ref MainPrivateDbSubnet1
+        - !Ref MainPrivateDbSubnet2
+  
+  PostgresDbInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: postgres-db
+      DBInstanceClass: db.t2.micro
+      DBName: luckalot
+      Engine: postgres
+      AllocatedStorage: 20
+      Port: 5432
+      MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref PostgresDbSecret, ':SecretString:username}}' ]]
+      MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref PostgresDbSecret, ':SecretString:password}}' ]]
+      DBSubnetGroupName: !Ref PostgresDbSubnetGroup
+      VPCSecurityGroups:
+        - !Ref MainDbSecurityGroup
+      PubliclyAccessible: false
       
 Outputs:
   MainVpc:
