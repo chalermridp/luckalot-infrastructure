@@ -366,53 +366,137 @@ Resources:
         - Key: Name
           Value: main-and-mngmt-vpc-peering
 
+  MainPublicRouteTableToMngmtPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPublicRouteTable
+      DestinationCidrBlock: !Ref MngmtPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPublicRouteTableToMngmtPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPublicRouteTable
+      DestinationCidrBlock: !Ref MngmtPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPublicRouteTableToMngmtPrivateSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPublicRouteTable
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPublicRouteTableToMngmtPrivateSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPublicRouteTable
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateAppRouteTable1ToMngmtPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateAppRouteTable1
+      DestinationCidrBlock: !Ref MngmtPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateAppRouteTable1ToMngmtPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateAppRouteTable1
+      DestinationCidrBlock: !Ref MngmtPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateAppRouteTable2ToMngmtPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateAppRouteTable2
+      DestinationCidrBlock: !Ref MngmtPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateAppRouteTable2ToMngmtPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateAppRouteTable2
+      DestinationCidrBlock: !Ref MngmtPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
   MainPrivateAppRouteTable1ToMngmtPrivateSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
       RouteTableId: !Ref MainPrivateAppRouteTable1
-      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
-
-  MainPrivateAppRouteTable2ToMngmtPrivateSubnet1:
-    Type: AWS::EC2::Route
-    Properties:
       DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
-      RouteTableId: !Ref MainPrivateAppRouteTable2
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MainPrivateAppRouteTable1ToMngmtPrivateSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
       RouteTableId: !Ref MainPrivateAppRouteTable1
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateAppRouteTable2ToMngmtPrivateSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateAppRouteTable2
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MainPrivateAppRouteTable2ToMngmtPrivateSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
       RouteTableId: !Ref MainPrivateAppRouteTable2
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateDbRouteTable1ToMngmtPublicSubnet1:  
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateDbRouteTable1
+      DestinationCidrBlock: !Ref MngmtPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateDbRouteTable1ToMngmtPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateDbRouteTable1
+      DestinationCidrBlock: !Ref MngmtPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateDbRouteTable2ToMngmtPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateDbRouteTable2
+      DestinationCidrBlock: !Ref MngmtPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateDbRouteTable2ToMngmtPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateDbRouteTable2
+      DestinationCidrBlock: !Ref MngmtPublicSubnet2CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MainPrivateDbRouteTable1ToMngmtPrivateSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
       RouteTableId: !Ref MainPrivateDbRouteTable1
-      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
-
-  MainPrivateDbRouteTable2ToMngmtPrivateSubnet1:
-    Type: AWS::EC2::Route
-    Properties:
       DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
-      RouteTableId: !Ref MainPrivateDbRouteTable2
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MainPrivateDbRouteTable1ToMngmtPrivateSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
       RouteTableId: !Ref MainPrivateDbRouteTable1
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MainPrivateDbRouteTable2ToMngmtPrivateSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainPrivateDbRouteTable2
+      DestinationCidrBlock: !Ref MngmtPrivateSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MainPrivateDbRouteTable2ToMngmtPrivateSubnet2:
@@ -422,60 +506,130 @@ Resources:
       RouteTableId: !Ref MainPrivateDbRouteTable2
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
+  MngmtPublicRouteTableToMainPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPublicRouteTableToMainPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPublicRouteTableToMainPrivateAppSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPublicRouteTableToMainPrivateAppSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPublicRouteTableToMainPrivateDbSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPublicRouteTableToMainPrivateDbSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPublicRouteTable
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPrivateRouteTable1ToMainPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPrivateRouteTable1ToMainPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPrivateRouteTable2ToMainPublicSubnet2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPublicSubnet2CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
+  MngmtPrivateRouteTable2ToMainPublicSubnet1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPublicSubnet1CIDR
+      VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
+
   MngmtPrivateRouteTable1ToMainPrivateAppSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateAppSubnet1CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable1ToMainPrivateAppSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateAppSubnet2CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet2CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable2ToMainPrivateAppSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateAppSubnet1CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable2ToMainPrivateAppSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateAppSubnet2CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPrivateAppSubnet2CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable1ToMainPrivateDbSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateDbSubnet1CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable1ToMainPrivateDbSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable1
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable2ToMainPrivateDbSubnet1:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateDbSubnet1CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet1CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtPrivateRouteTable2ToMainPrivateDbSubnet2:
     Type: AWS::EC2::Route
     Properties:
-      DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
       RouteTableId: !Ref MngmtPrivateRouteTable2
+      DestinationCidrBlock: !Ref MainPrivateDbSubnet2CIDR
       VpcPeeringConnectionId: !Ref MainAndMngmtVpcPeering
 
   MngmtVpnSecurityGroup:
