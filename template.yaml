@@ -724,87 +724,131 @@ Outputs:
   MainVpc:
     Description: A reference to the created main vpc
     Value: !Ref MainVpc
+    Export:
+      Name: !Sub "${AWS::StackName}-MainVpc"
 
   MainPublicSubnets:
     Description: A list of the main public subnets
     Value: !Join [ ",", [ !Ref MainPublicSubnet1, !Ref MainPublicSubnet2 ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPublicSubnets"
 
   MainPrivateSubnets:
     Description: A list of the main private subnets
     Value: !Join [ ",", [ !Ref MainPrivateAppSubnet1, !Ref MainPrivateAppSubnet2 ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateSubnets"
 
   MainPrivateDbSubnets:
     Description: A list of the main private db subnets
     Value: !Join [ ",", [ !Ref MainPrivateDbSubnet1, !Ref MainPrivateDbSubnet2 ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateDbSubnets"
 
   MainPublicSubnet1:
     Description: A reference to the main public subnet in the 1st Availability Zone
     Value: !Ref MainPublicSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPublicSubnet1"
 
   MainPublicSubnet2:
     Description: A reference to the main public subnet in the 2nd Availability Zone
     Value: !Ref MainPublicSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPublicSubnet2"
 
   MainPrivateAppSubnet1:
     Description: A reference to the main private subnet in the 1st Availability Zone
     Value: !Ref MainPrivateAppSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateAppSubnet1"
 
   MainPrivateAppSubnet2:
     Description: A reference to the main private subnet in the 2nd Availability Zone
     Value: !Ref MainPrivateAppSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateAppSubnet2"
 
   MainPrivateDbSubnet1:
     Description: A reference to the main private db subnet in the 1st Availability Zone
     Value: !Ref MainPrivateDbSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateDbSubnet1"
 
   MainPrivateDbSubnet2:
     Description: A reference to the main private db subnet in the 2nd Availability Zone
     Value: !Ref MainPrivateDbSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-MainPrivateDbSubnet2"
 
   MngmtVpc:
     Description: A reference to the created mngmt vpc
     Value: !Ref MngmtVpc
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtVpc"
 
   MngmtPublicSubnets:
     Description: A list of the mngmt public subnets
     Value: !Join [ ",", [ !Ref MngmtPublicSubnet1, !Ref MngmtPublicSubnet2 ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPublicSubnets"
 
   MngmtPrivateSubnets:
     Description: A list of the mngmt private subnets
     Value: !Join [ ",", [ !Ref MngmtPrivateSubnet1, !Ref MngmtPrivateSubnet2 ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPrivateSubnets"
 
   MngmtPublicSubnet1:
     Description: A reference to the mngmt public subnet in the 1st Availability Zone
     Value: !Ref MngmtPublicSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPublicSubnet1"
 
   MngmtPublicSubnet2:
     Description: A reference to the mngmt public subnet in the 2nd Availability Zone
     Value: !Ref MngmtPublicSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPublicSubnet2"
 
   MngmtPrivateSubnet1:
     Description: A reference to the mngmt private subnet in the 1st Availability Zone
     Value: !Ref MngmtPrivateSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPrivateSubnet1"
 
   MngmtPrivateSubnet2:
     Description: A reference to the mngmt private subnet in the 2nd Availability Zone
     Value: !Ref MngmtPrivateSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtPrivateSubnet2"
 
   MngmtVpnSecurityGroup:
     Description: A reference to the mngmt vpn security group
     Value: !Ref MngmtVpnSecurityGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-MngmtVpnSecurityGroup"
 
   MainAppSecurityGroup:
     Description: A reference to the main app security group
     Value: !Ref MainAppSecurityGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-MainAppSecurityGroup"
 
   MainDbSecurityGroup:
     Description: A reference to the main db security group
     Value: !Ref MainDbSecurityGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-MainDbSecurityGroup"
 
   PostgresDbEndpoint:
     Description: A reference to the postgres db endpoint
     Value: !GetAtt PostgresDbInstance.Endpoint.Address
+    Export:
+      Name: !Sub "${AWS::StackName}-PostgresDbEndpoint"
 
   PostgresDbPort:
     Description: A reference to the postgres db port
     Value: !GetAtt PostgresDbInstance.Endpoint.Port
+    Export:
+      Name: !Sub "${AWS::StackName}-PostgresDbPort"
