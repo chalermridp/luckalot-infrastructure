@@ -841,6 +841,12 @@ Outputs:
     Export:
       Name: !Sub "${AWS::StackName}-MainDbSecurityGroup"
 
+  PostgresDbSecret:
+    Description: A reference to the postgres db secret manager
+    Value: !Ref PostgresDbSecret
+    Export:
+      Name: !Sub "${AWS::StackName}-PostgresDbSecret"
+
   PostgresDbEndpoint:
     Description: A reference to the postgres db endpoint
     Value: !GetAtt PostgresDbInstance.Endpoint.Address
