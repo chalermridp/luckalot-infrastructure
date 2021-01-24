@@ -1,0 +1,25 @@
+version: 0.2
+
+env:
+  variables:
+    # this value can override during manual build for dev, ppe and prod
+    STAGE: "dev"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+  pre_build:
+    commands:
+      - mkdir -p artifact
+  build:
+    commands:
+      - aws cloudformation package --template-file template.yaml --s3-bucket luckalot-infrastructure-artifact --output-template-file artifact/template.${STAGE}.out.yaml
+  post_build:
+    commands:
+      - aws cloudformation deploy --template-file artifact/template.${STAGE}.out.yaml --stack-name luckalot-infrastructure-stack --capabilities CAPABILITY_NAMED_IAM
+artifacts:
+  files:
+    - artifact/template.${STAGE}.out.yaml
+  discard-paths: yes
